@@ -1,0 +1,11 @@
+--- src/mod_compress.c
++++ src/mod_compress.c
+@@ -771,7 +771,7 @@ PHYSICALPATH_FUNC(mod_compress_physical) {
+ 
+ 					/* try matching original etag of uncompressed version */
+ 					etag_mutate(con->physical.etag, sce->etag);
+-					if (HANDLER_FINISHED == http_response_handle_cachable(srv, con, mtime)) {
++					if (HANDLER_FINISHED == http_response_handle_cachable(srv, con, mtime, con->physical.etag)) {
+ 						response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"), CONST_BUF_LEN(sce->content_type));
+ 						response_header_overwrite(srv, con, CONST_STR_LEN("Last-Modified"), CONST_BUF_LEN(mtime));
+ 						response_header_overwrite(srv, con, CONST_STR_LEN("ETag"), CONST_BUF_LEN(con->physical.etag));
